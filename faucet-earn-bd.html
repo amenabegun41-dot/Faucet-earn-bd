@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faucet Earn BD</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    iframe {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- App Section (Always visible) -->
+<div id="app-section" class="max-w-4xl mx-auto p-4">
+  <header class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">Welcome to Faucet Earn BD</h2>
+  </header>
+
+  <!-- FaucetPay Wallet iframe -->
+  <section id="home-screen" class="mb-8">
+    <h3 class="text-xl font-bold mb-2">FaucetPay Wallet</h3>
+    <iframe src="https://faucetpay.io/" frameborder="0"></iframe>
+  </section>
+
+  <!-- Menu -->
+  <nav>
+    <ul class="grid grid-cols-3 gap-4 mb-8" id="main-menu"></ul>
+  </nav>
+
+  <!-- Faucet Links Section -->
+  <section id="faucet-links" class="hidden">
+    <button id="back-to-menu" class="mb-4 text-blue-600 underline">← Back to Menu</button>
+    <h3 id="category-title" class="text-xl font-bold mb-4"></h3>
+    <div id="links-container" class="grid grid-cols-2 gap-4"></div>
+  </section>
+</div>
+
+<script>
+  const mainMenu = document.getElementById('main-menu');
+  const faucetLinksSection = document.getElementById('faucet-links');
+  const backToMenuBtn = document.getElementById('back-to-menu');
+  const categoryTitle = document.getElementById('category-title');
+  const linksContainer = document.getElementById('links-container');
+  const homeScreen = document.getElementById('home-screen');
+
+  // Faucet categories & links
+  const faucetData = {
+    "1 Minute Faucets": [
+      { name: "Example Faucet 1", url: "https://example1.com" },
+      { name: "Example Faucet 2", url: "https://example2.com" }
+    ],
+    "5 Minute Faucets": [
+      { name: "Example Faucet 3", url: "https://example3.com" }
+    ],
+    "15 Minute Faucets": [
+      { name: "Example Faucet 4", url: "https://example4.com" }
+    ],
+    "Hourly Faucets": [
+      { name: "Example Faucet 5", url: "https://example5.com" }
+    ],
+    "Daily Faucets": [
+      { name: "Example Faucet 6", url: "https://example6.com" }
+    ],
+    "Others": [
+      { name: "Example Faucet 7", url: "https://example7.com" }
+    ]
+  };
+
+  // Show main menu
+  function showMainMenu() {
+    faucetLinksSection.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    mainMenu.innerHTML = '';
+    for (const category in faucetData) {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.textContent = category;
+      btn.className = "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700";
+      btn.onclick = () => showFaucetLinks(category);
+      li.appendChild(btn);
+      mainMenu.appendChild(li);
+    }
+  }
+
+  // Show faucet links in category
+  function showFaucetLinks(category) {
+    categoryTitle.textContent = category;
+    linksContainer.innerHTML = '';
+    faucetData[category].forEach(site => {
+      const btn = document.createElement('button');
+      btn.textContent = site.name;
+      btn.className = "bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700";
+      btn.onclick = () => window.open(site.url, '_blank');
+      linksContainer.appendChild(btn);
+    });
+    homeScreen.classList.add('hidden');
+    faucetLinksSection.classList.remove('hidden');
+  }
+
+  // Back button
+  backToMenuBtn.onclick = () => showMainMenu();
+
+  // On page load
+  showMainMenu();
+</script>
+
+</body>
+</html>
